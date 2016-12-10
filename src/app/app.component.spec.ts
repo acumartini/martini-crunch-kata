@@ -1,14 +1,22 @@
-/* tslint:disable:no-unused-variable */
-
 import { TestBed, async } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
+
 import { AppComponent } from './app.component';
+import { SurveyService } from './services/survey';
+
 
 describe('AppComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      providers: [
+        SurveyService
+      ],
       declarations: [
         AppComponent
       ],
+      imports: [
+        HttpModule
+      ]
     });
     TestBed.compileComponents();
   });
