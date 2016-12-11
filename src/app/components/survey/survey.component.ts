@@ -14,16 +14,26 @@ export class SurveyComponent {
   @Input() graph: OrderGraphElement[];
   @Input() root: boolean = true;
 
+  variable: Variable;
+
   constructor(
     public variableService: VariableService,
     public orderService: OrderService
   ) {}
 
   ngOnInit() {
-    console.log('hello `Survey` component');
+    console.log('hello `SurveyComponent`');
   }
 
-  isLeaf(elem: OrderGraphElement): elem is OrderGraphLeaf {
+  isValidLeaf(elem: OrderGraphElement): boolean {
+    if (this.isLeaf(elem)) {
+      this.variable = this.variableService.variableForName(elem);
+      return !!this.variable && !!this.variable.name;
+    }
+    return false;
+  }
+
+  private isLeaf(elem: OrderGraphElement): elem is OrderGraphLeaf {
     return typeof elem === 'string';
   }
 

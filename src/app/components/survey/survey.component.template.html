@@ -1,15 +1,15 @@
 <div
   class="survey-content"
   [ngStyle]="{
-    'padding-left': root ? 0 : '16px'
+    'padding-left': root ? 0 : '14px'
   }">
   <div
     *ngFor="let elem of graph"
     class="order-graph-element">
     <div
-      *ngIf="isLeaf(elem) && variableService.variableForName(elem)"
+      *ngIf="isValidLeaf(elem)"
       class="order-graph-leaf">
-      {{ variableService.variableForName(elem).name }}
+      {{ variable.name }}
     </div>
     <div
       *ngIf="!isLeaf(elem)"
