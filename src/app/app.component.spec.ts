@@ -3,13 +3,17 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { SurveyService } from './services/survey';
+import { OrderService } from './services/order';
+import { VariableService } from './services/variable';
 
 
 describe('AppComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        SurveyService
+        SurveyService,
+        OrderService,
+        VariableService
       ],
       declarations: [
         AppComponent

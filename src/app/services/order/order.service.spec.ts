@@ -12,18 +12,20 @@ const MOCK_ORDER_ELEMENT = <OrderElement>{
   "self": "mock:self",
   "graph": [
     "LOOP_BREAKER", {
-      "MOCK_NODE_1": [{
-        "MOCK_NODE_2": ["11b0b9", "7a89e0"]
-      }, {
-          "MOCK_NODE_3": ["786c0f", "2d27ab"]
-        }]
+    "MOCK_NODE_1": [{
+      "MOCK_NODE_2": ["11b0b9", "7a89e0"]
     }, {
-      "MOCK_NODE_4": [{
-        "MOCK_NODE_5": ["ede6a8", "62c00f", "0f6ce0", "f2a681"]
-      }, {
-          "MOCK_NODE_6": ["8d7127", "ee3e40", "8f7db6", "3a5f89"]
-        }]
-    }, "d0fe8b", "0894c5"]
+      "MOCK_NODE_3": ["786c0f", "2d27ab"]
+    }]}, {
+    "MOCK_NODE_4": [{
+      "MOCK_NODE_5": ["ede6a8", "62c00f", "0f6ce0", "f2a681"]
+    }, {
+      "MOCK_NODE_6": ["8d7127", "ee3e40", "8f7db6", "3a5f89"]
+    }]
+    },
+    "d0fe8b",
+    "0894c5"
+  ]
 };
 
 describe('VariablePostionService', () => {
@@ -52,6 +54,7 @@ describe('VariablePostionService', () => {
         HttpModule
       ]
     });
+    TestBed.compileComponents();
   });
 
   it('should return the position of a variable name at the root level', async(inject(

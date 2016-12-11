@@ -27,6 +27,10 @@ export class SurveyService {
     public http: Http
   ) { }
 
+  currentVariables(): Observable<VariablesElement> {
+    return this._currentVariables.asObservable();
+  }
+
   /**
    * Asynchronously request variables data for a given survey.
    *
@@ -41,7 +45,7 @@ export class SurveyService {
     this.http.get(this.variablesUrlForSurvey(survey))
       .map(res => res.json())
       .subscribe((data: VariablesElement) => {
-        variablesSubject.next(data)
+        this.updateVariables(data);
       }, error => console.log(`Failed to load variables element for survey [${survey}].`));
     return variablesSubject.asObservable();
   }

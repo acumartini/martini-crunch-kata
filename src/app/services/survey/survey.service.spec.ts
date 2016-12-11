@@ -26,6 +26,7 @@ describe('SurveyService', () => {
         HttpModule
       ]
     });
+    TestBed.compileComponents();
   });
 
   it('should construct', async(inject(

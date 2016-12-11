@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { SurveyService } from './services/survey';
 import { OrderService } from './services/order';
+import { VariableService } from './services/variable';
 
 
 @Component({
@@ -17,7 +18,9 @@ export class AppComponent {
   title = 'app works!';
 
   constructor(
-    public surveyService: SurveyService
+    public surveyService: SurveyService,
+    public orderService: OrderService,
+    public variableService: VariableService
   ) {}
 
   ngOnInit() {

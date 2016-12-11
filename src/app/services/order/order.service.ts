@@ -4,8 +4,8 @@ import { SurveyService } from '../survey';
 
 
 /**
- * For a given OrderElement, this service facilitate position finding for variables
- * by name.
+ * Given the current scope of VariablesElement and OrderElement provided by the
+ * SurveyService, this service facilitate position finding for variables by name.
  */
 @Injectable()
 export class OrderService {
