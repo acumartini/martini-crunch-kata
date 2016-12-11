@@ -1,7 +1,11 @@
-<h1>
-  {{title}}
-</h1>
-<survey
-  *ngIf="variables && order"
-  [graph]="order.graph">
-</survey>
+<div class="crunch-kata-wrapper">
+  <div class="crunch-balls-wrapper">
+    <div class="circle crunch-ball" id="purple"></div>
+    <div class="circle crunch-ball" id="blue"></div>
+    <div class="circle crunch-ball" id="green"></div>
+  </div>
+  <survey
+    *ngIf="variables && order"
+    [graph]="order.graph">
+  </survey>
+</div>

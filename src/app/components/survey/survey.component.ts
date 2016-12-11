@@ -12,6 +12,7 @@ import { OrderService } from '../../services/order';
 export class SurveyComponent {
 
   @Input() graph: OrderGraphElement[];
+  @Input() root: boolean = true;
 
   constructor(
     public variableService: VariableService,

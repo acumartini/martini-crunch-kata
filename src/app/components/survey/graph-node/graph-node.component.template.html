@@ -1,4 +1,8 @@
-<div class="graph-node-content">
+<div
+  class="graph-node-content"
+  [ngStyle]="{
+    'padding-left': root ? 0 : '16px'
+  }">
   <div class="graph-node-name-wrapper">
     <md-icon
       *ngIf="expanded"
@@ -19,7 +23,8 @@
     </span>
   </div>
   <survey
+    [hidden]="!expanded"
     [graph]="elems"
-    [hidden]="!expanded">
+    [root]="false">
   </survey>
 </div>

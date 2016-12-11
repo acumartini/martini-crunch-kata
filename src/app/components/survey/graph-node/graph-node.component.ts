@@ -9,6 +9,7 @@ import { Component, Input } from '@angular/core';
 export class GraphNodeComponent {
 
   @Input() node: OrderGraphNode;
+  @Input() root: boolean;
 
   nodeName: string;
   elems: OrderGraphElement[];

@@ -1,4 +1,8 @@
-<div class="survey-content">
+<div
+  class="survey-content"
+  [ngStyle]="{
+    'padding-left': root ? 0 : '16px'
+  }">
   <div
     *ngFor="let elem of graph"
     class="order-graph-element">
@@ -10,7 +14,10 @@
     <div
       *ngIf="!isLeaf(elem)"
       class="order-graph-node">
-      <graph-node [node]="elem"></graph-node>
+      <graph-node
+        [node]="elem"
+        [root]="root">
+      </graph-node>
     </div>
   </div>
 </div>
