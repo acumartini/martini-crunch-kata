@@ -1,0 +1,25 @@
+<div class="graph-node-content">
+  <div class="graph-node-name-wrapper">
+    <md-icon
+      *ngIf="expanded"
+      class="expand-icon"
+      (click)="toggleExpanded($event)"
+      svgSrc="../../../assets/icons/expand_more.svg">
+    </md-icon>
+    <md-icon
+      *ngIf="!expanded"
+      class="expand-icon"
+      (click)="toggleExpanded($event)"
+      svgSrc="../../../assets/icons/expand_less.svg">
+    </md-icon>
+    <span
+      class="graph-node-name"
+      (click)="toggleExpanded($event)">
+      {{ nodeName }}
+    </span>
+  </div>
+  <survey
+    [graph]="elems"
+    [hidden]="!expanded">
+  </survey>
+</div>

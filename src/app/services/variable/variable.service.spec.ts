@@ -90,7 +90,7 @@ describe('VariablePostionService', () => {
   it('should return a variable for a root level position', async(inject(
     [SurveyService, VariableService],
     (survey: SurveyService, service: VariableService) => {
-      let result = service.variableFor([4]);
+      let result = service.variableForPosition([4]);
       let expected = <Variable>{
         "name": "mock:variable:name1",
         "type": "mock:variable:type1",
@@ -105,7 +105,7 @@ describe('VariablePostionService', () => {
   it('should return a variable for a deeply nested position', async(inject(
     [SurveyService, VariableService],
     (survey: SurveyService, service: VariableService) => {
-      let result = service.variableFor([1, 'MOCK_NODE_1', 1, 'MOCK_NODE_3', 0]);
+      let result = service.variableForPosition([1, 'MOCK_NODE_1', 1, 'MOCK_NODE_3', 0]);
       let expected = <Variable>{
         "name": "mock:variable:name2",
         "type": "mock:variable:type2",
@@ -120,13 +120,13 @@ describe('VariablePostionService', () => {
   it('should return undefined for an invalid position', async(inject(
     [SurveyService, VariableService],
     (survey: SurveyService, service: VariableService) => {
-      let result = service.variableFor([10]);
+      let result = service.variableForPosition([10]);
       expect(result).toEqual(undefined);
 
-      result = service.variableFor(['NOPE_NOT_HAPPENING']);
+      result = service.variableForPosition(['NOPE_NOT_HAPPENING']);
       expect(result).toEqual(undefined);
 
-      result = service.variableFor([1, 'NOPE_NOT_HAPPENING']);
+      result = service.variableForPosition([1, 'NOPE_NOT_HAPPENING']);
       expect(result).toEqual(undefined);
     }
   )));
@@ -134,9 +134,11 @@ describe('VariablePostionService', () => {
   it('should return undefined for an invalid variable name', async(inject(
     [SurveyService, VariableService],
     (survey: SurveyService, service: VariableService) => {
-      let result = service.variableFor([5]);
+      let result = service.variableForPosition([5]);
       expect(result).toEqual(undefined);
     }
   )));
+
+  // TODO: test variable name
 
 });

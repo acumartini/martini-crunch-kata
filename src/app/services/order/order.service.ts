@@ -38,13 +38,13 @@ export class OrderService {
   private findPosition(
     variableName: string,
     nodeName: string,
-    elems: (OrderGraphLeaf | OrderGraphNode)[]
+    elems: OrderGraphElement[]
   ): VariablePosition {
     let position: VariablePosition;
 
     if (this.order) {
       // search the order elements *until* the position is determined
-      elems.find((elem: (OrderGraphLeaf | OrderGraphNode), index: number) => {
+      elems.find((elem: OrderGraphElement, index: number) => {
         if (this.isLeaf(elem)) {
           if (elem === variableName) {
             if (nodeName) {
@@ -87,7 +87,7 @@ export class OrderService {
     return position;
   }
 
-  private isLeaf(elem: OrderGraphLeaf | OrderGraphNode): elem is OrderGraphLeaf {
+  private isLeaf(elem: OrderGraphElement): elem is OrderGraphLeaf {
     return typeof elem === 'string';
   }
 

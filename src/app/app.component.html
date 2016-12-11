@@ -1,3 +1,7 @@
 <h1>
   {{title}}
 </h1>
+<survey
+  *ngIf="variables && order"
+  [graph]="order.graph">
+</survey>

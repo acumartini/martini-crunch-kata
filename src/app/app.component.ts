@@ -18,6 +18,8 @@ import { VariableService } from './services/variable';
 export class AppComponent {
 
   title = 'app works!';
+  variables: VariablesElement;
+  order: OrderElement;
 
   constructor(
     public surveyService: SurveyService,
@@ -26,9 +28,14 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
+    // update survey scope for 'shoji' variables
+    this.surveyService.variables('shoji').subscribe(variables => {
+      this.variables = variables;
+    });
+    // update survey scope for 'shoji' order
     this.surveyService.order('shoji').subscribe(order => {
-      console.log("got order")
-    })
+      this.order = order;
+    });
   }
 
 }

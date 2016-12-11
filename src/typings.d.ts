@@ -28,8 +28,9 @@ interface Order {
 }
 
 type OrderGraphLeaf = string;
-type OrderGraphNode = { [key:string]: (OrderGraphLeaf | OrderGraphNode)[] };
+type OrderGraphNode = { [key:string]: OrderGraphElement[] };
+type OrderGraphElement = OrderGraphLeaf | OrderGraphNode;
 
 interface OrderElement extends SurveyElement {
-  graph: (OrderGraphLeaf | OrderGraphNode)[]
+  graph: OrderGraphElement[]
 }

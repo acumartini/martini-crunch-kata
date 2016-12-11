@@ -45,7 +45,7 @@ export class SurveyService {
     this.http.get(this.variablesUrlForSurvey(survey))
       .map(res => res.json())
       .subscribe((data: VariablesElement) => {
-        this.updateVariables(data);
+        this.updateVariables(data, variablesSubject);
       }, error => console.log(`Failed to load variables element for survey [${survey}].`));
     return variablesSubject.asObservable();
   }
@@ -68,7 +68,7 @@ export class SurveyService {
     this.http.get(this.orderUrlForSurvey(survey))
       .map(res => res.json())
       .subscribe((data: OrderElement) => {
-        this.updateOrder(data);
+        this.updateOrder(data, orderSubject);
       }, error => console.log(`Failed to load order element for survey [${survey}].`));
     return orderSubject.asObservable();
   }

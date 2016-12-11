@@ -1,0 +1,16 @@
+<div class="survey-content">
+  <div
+    *ngFor="let elem of graph"
+    class="order-graph-element">
+    <div
+      *ngIf="isLeaf(elem) && variableService.variableForName(elem)"
+      class="order-graph-leaf">
+      {{ variableService.variableForName(elem).name }}
+    </div>
+    <div
+      *ngIf="!isLeaf(elem)"
+      class="order-graph-node">
+      <graph-node [node]="elem"></graph-node>
+    </div>
+  </div>
+</div>

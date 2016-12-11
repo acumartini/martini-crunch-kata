@@ -30,12 +30,12 @@ export class VariableService {
    * @return Variable at given position if a variable name is found at the given
              positon and the variable name is found in the current variables scope
    */
-  variableFor(position: VariablePosition): Variable {
+  variableForPosition(position: VariablePosition): Variable {
     let variable: Variable;
 
     if (this.variables && this.order) {
-      let currentElems: (OrderGraphLeaf | OrderGraphNode)[] = this.order.graph;
-      let currentElem: (OrderGraphLeaf | OrderGraphNode);
+      let currentElems: OrderGraphElement[] = this.order.graph;
+      let currentElem: OrderGraphElement;
       try {
         position.forEach(pos => {
           if (typeof pos === 'number') {
@@ -45,6 +45,24 @@ export class VariableService {
           }
         });
         variable = this.variables.index[<OrderGraphLeaf>currentElem];
+      } catch (e) {
+        console.log('Failed to find variable.');
+      }
+    }
+
+    return variable;
+  }
+
+  /**
+   * @return Variable for a given variable name if the variable name is found in
+   *         the current variables scope
+   */
+  variableForName(variableName: string): Variable {
+    let variable: Variable;
+
+    if (this.variables) {
+      try {
+        variable = this.variables.index[variableName];
       } catch (e) {
         console.log('Failed to find variable.');
       }
