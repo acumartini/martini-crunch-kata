@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { SurveyService } from './services/survey';
+import { OrderService } from './services/order';
 
 
 @Component({
@@ -20,7 +21,9 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
-    console.log('Hello from "App" Component');
+    this.surveyService.order('shoji').subscribe(order => {
+      console.log("got order")
+    })
   }
 
 }

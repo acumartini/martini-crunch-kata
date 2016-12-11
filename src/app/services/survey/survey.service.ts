@@ -22,7 +22,7 @@ export class SurveyService {
 
   /**
    * Asynchronously request variables data for a given survey.
-
+   *
    * @returns VariablesElement observable that will be notified upon successful data retrieval
    */
   variables(survey: string): Observable<VariablesElement> {
@@ -41,7 +41,7 @@ export class SurveyService {
 
   /**
    * Asynchronously request order data for a given survey.
-
+   *
    * @returns OrderElement observable that will be notified upon successful data retrieval
    */
   order(survey: string): Observable<OrderElement> {

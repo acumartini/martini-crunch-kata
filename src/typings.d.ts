@@ -1,7 +1,11 @@
+//// Common Models
+
 interface SurveyElement {
   element: string,
   self: string
 }
+
+//// Variable Models
 
 interface Variable {
   name: string,
@@ -9,18 +13,23 @@ interface Variable {
   description: string
 }
 
+type VariablePosition = (number | string)[];
+
 interface VariablesElement extends SurveyElement {
   orders: Order, // TODO: name implies more than one order?
   description: string,
   index: { [key:string]: Variable }
 }
 
+//// Order Models
+
 interface Order {
   hier: string
 }
 
-type OrderGraphNode = { [key:string]: (string | OrderGraphNode)[] };
+type OrderGraphLeaf = string;
+type OrderGraphNode = { [key:string]: (OrderGraphLeaf | OrderGraphNode)[] };
 
 interface OrderElement extends SurveyElement {
-  graph: (string | OrderGraphNode)[]
+  graph: (OrderGraphLeaf | OrderGraphNode)[]
 }
