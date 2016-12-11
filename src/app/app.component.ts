@@ -8,7 +8,9 @@ import { VariableService } from './services/variable';
 @Component({
   selector: 'app-root',
   providers: [
-    SurveyService
+    SurveyService,
+    OrderService,
+    VariableService
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']

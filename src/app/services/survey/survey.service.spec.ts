@@ -2,7 +2,7 @@ import { async, inject, TestBed } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, RequestMethod, Response, ResponseOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import {} from 'jasmine';
-import 'rxjs/Rx'
+import 'rxjs/Rx';
 
 import { SurveyService } from './survey.service';
 
