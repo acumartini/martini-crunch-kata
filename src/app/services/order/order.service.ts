@@ -1,21 +1,30 @@
+import { Injectable } from '@angular/core';
+
+import { SurveyService } from '../survey';
+
+
 /**
  * For a given OrderElement, this service facilitate position finding for variables
  * by name.
  */
+@Injectable()
 export class OrderService {
 
   private order: OrderElement;
 
   constructor(
-    order: OrderElement
+    surveyService: SurveyService
   ) {
-    this.order = order;
+    // keep the scope of this service up to date with the most recently queried OrderElement
+    surveyService.currentOrder().subscribe(order => {
+      this.order = order;
+    });
   }
 
   /**
    * @return VariablePosition if the variable name is found in the order, else undefined
    */
-  position(variableName: string): VariablePosition {
+  variablePosition(variableName: string): VariablePosition {
     return this.findPosition(variableName, undefined, this.order.graph);
   }
 
@@ -33,28 +42,30 @@ export class OrderService {
   ): VariablePosition {
     let position: VariablePosition;
 
-    // search the order elements *until* the position is determined
-    elems.find((elem: (OrderGraphLeaf | OrderGraphNode), index: number) => {
-      if (this.isLeaf(elem)) {
-        if (elem === variableName) {
-          if (nodeName) {
-            position = [nodeName, index];
-          } else {
-            position = [index];
+    if (this.order) {
+      // search the order elements *until* the position is determined
+      elems.find((elem: (OrderGraphLeaf | OrderGraphNode), index: number) => {
+        if (this.isLeaf(elem)) {
+          if (elem === variableName) {
+            if (nodeName) {
+              position = [nodeName, index];
+            } else {
+              position = [index];
+            }
+          }
+        } else {
+          let childPosition = this.findPositionRec(variableName, <OrderGraphNode>elem)
+          if (childPosition) {
+            if (nodeName) {
+              position = [nodeName, index].concat(childPosition);
+            } else {
+              position = (<VariablePosition>[index]).concat(childPosition);
+            }
           }
         }
-      } else {
-        let childPosition = this.findPositionRec(variableName, <OrderGraphNode>elem)
-        if (childPosition) {
-          if (nodeName) {
-            position = [nodeName, index].concat(childPosition);
-          } else {
-            position = (<VariablePosition>[index]).concat(childPosition);
-          }
-        }
-      }
-      return !!position
-    });
+        return !!position
+      });
+    }
 
     return position;
   }
