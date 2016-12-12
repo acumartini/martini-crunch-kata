@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 
+import { OrderGraphUtils } from '../../utils/order-graph';
 import { VariableService } from '../../services/variable';
 import { OrderService } from '../../services/order';
 
@@ -15,6 +16,7 @@ export class SurveyComponent {
   @Input() root: boolean = true;
 
   variable: Variable;
+  isLeaf = OrderGraphUtils.isLeaf; // required for use in template
 
   constructor(
     public variableService: VariableService,
@@ -22,15 +24,11 @@ export class SurveyComponent {
   ) {}
 
   isValidLeaf(elem: OrderGraphElement): boolean {
-    if (this.isLeaf(elem)) {
+    if (OrderGraphUtils.isLeaf(elem)) {
       this.variable = this.variableService.variableForName(elem);
       return !!this.variable && !!this.variable.name;
     }
     return false;
-  }
-
-  private isLeaf(elem: OrderGraphElement): elem is OrderGraphLeaf {
-    return typeof elem === 'string';
   }
 
 }

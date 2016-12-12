@@ -12,6 +12,7 @@ export class VariableService {
 
   private variables: VariablesElement;
   private order: OrderElement;
+  private variablePositonCache = new Map<VariablePosition, Variable>();
 
   constructor(
     surveyService: SurveyService
@@ -19,10 +20,12 @@ export class VariableService {
     // keep the scope of this service up to date with the most recently queried VariablesElement
     surveyService.currentVariables().subscribe(variables => {
       this.variables = variables;
+      this.variablePositonCache.clear();
     });
     // keep the scope of this service up to date with the most recently queried OrderElement
     surveyService.currentOrder().subscribe(order => {
       this.order = order;
+      this.variablePositonCache.clear();
     });
   }
 
@@ -31,9 +34,10 @@ export class VariableService {
              positon and the variable name is found in the current variables scope
    */
   variableForPosition(position: VariablePosition): Variable {
-    let variable: Variable;
+    let variable = this.variablePositonCache.get(position);
 
-    if (this.variables && this.order) {
+    // attempt to find the variable if it is not cached
+    if (!variable && this.variables && this.order) {
       let currentElems: OrderGraphElement[] = this.order.graph;
       let currentElem: OrderGraphElement;
       try {
@@ -45,8 +49,9 @@ export class VariableService {
           }
         });
         variable = this.variables.index[<OrderGraphLeaf>currentElem];
+        this.variablePositonCache.set(position, variable);
       } catch (e) {
-        console.log('Failed to find variable.');
+        console.log(`Failed to find variable for position [${position}]`);
       }
     }
 
@@ -64,7 +69,7 @@ export class VariableService {
       try {
         variable = this.variables.index[variableName];
       } catch (e) {
-        console.log('Failed to find variable.');
+        console.log(`Failed to find variable [${variableName}]`);
       }
     }
 

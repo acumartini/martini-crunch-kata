@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { OrderGraphUtils } from '../../utils/order-graph';
 import { SurveyService } from '../survey';
 
 
@@ -11,6 +12,7 @@ import { SurveyService } from '../survey';
 export class OrderService {
 
   private order: OrderElement;
+  private variableNameCache = new Map<string, VariablePosition>();
 
   constructor(
     surveyService: SurveyService
@@ -18,6 +20,7 @@ export class OrderService {
     // keep the scope of this service up to date with the most recently queried OrderElement
     surveyService.currentOrder().subscribe(order => {
       this.order = order;
+      this.variableNameCache.clear();
     });
   }
 
@@ -45,7 +48,7 @@ export class OrderService {
     if (this.order) {
       // search the order elements *until* the position is determined
       elems.find((elem: OrderGraphElement, index: number) => {
-        if (this.isLeaf(elem)) {
+        if (OrderGraphUtils.isLeaf(elem)) {
           if (elem === variableName) {
             if (nodeName) {
               position = [nodeName, index];
@@ -85,10 +88,6 @@ export class OrderService {
     });
 
     return position;
-  }
-
-  private isLeaf(elem: OrderGraphElement): elem is OrderGraphLeaf {
-    return typeof elem === 'string';
   }
 
 }

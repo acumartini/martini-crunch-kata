@@ -4,6 +4,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Observable } from 'rxjs/Observable';
 import {} from 'jasmine';
 
+import { OrderGraphUtils } from '../../utils/order-graph';
 import { SurveyService } from '../survey';
 import { OrderService } from './order.service';
 
@@ -83,7 +84,7 @@ describe('VariablePostionService', () => {
     [SurveyService, OrderService],
     (survey: SurveyService, service: OrderService) => {
       let findPositionRecSpy = spyOn(service, 'findPositionRec');
-      let isLeafSpy = spyOn(service, 'isLeaf').and.returnValue(true);
+      let isLeafSpy = spyOn(OrderGraphUtils, 'isLeaf').and.returnValue(true);
 
       let result = service.variablePosition('LOOP_BREAKER');
       let expected = [0];
