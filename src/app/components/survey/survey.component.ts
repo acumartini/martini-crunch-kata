@@ -21,10 +21,6 @@ export class SurveyComponent {
     public orderService: OrderService
   ) {}
 
-  ngOnInit() {
-    console.log('hello `SurveyComponent`');
-  }
-
   isValidLeaf(elem: OrderGraphElement): boolean {
     if (this.isLeaf(elem)) {
       this.variable = this.variableService.variableForName(elem);

@@ -48,15 +48,6 @@ const MOCK_VARIABLES_ELEMENT = <VariablesElement>{
     }
   }
 };
-const EMPTY_VARIABLES_ELEMENT = <VariablesElement>{
-  "element": "mock:variables",
-  "self": "mock:self",
-  "orders": {
-    "hier": "mock:order:hier"
-  },
-  "description": "mock:variables:description",
-  "index": {}
-};
 
 describe('VariablePostionService', () => {
   beforeEach(() => {

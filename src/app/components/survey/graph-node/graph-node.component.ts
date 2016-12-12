@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'graph-node',
-  styleUrls: [ './graph-node.component.style.less' ],
+  styleUrls: ['./graph-node.component.style.less'],
   templateUrl: './graph-node.component.template.html'
 })
 export class GraphNodeComponent {
@@ -13,17 +13,18 @@ export class GraphNodeComponent {
 
   nodeName: string;
   elems: OrderGraphElement[];
-  expanded: boolean = true;
+  expanded: boolean = false;
 
-  constructor(
-  ) {}
+  constructor() { }
 
   ngOnInit() {
-    console.log('hello `GraphNodeComponent`');
     if (this.node) {
       Object.keys(this.node).forEach((nodeName: string) => {
-        this.nodeName = nodeName;
-        this.elems = this.node[nodeName];
+        let elems = this.node[nodeName];
+        if (elems.length > 0) {
+          this.nodeName = nodeName;
+          this.elems = elems;
+        }
       });
     }
   }

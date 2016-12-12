@@ -1,132 +1,86 @@
-import { async, inject, TestBed } from '@angular/core/testing';
-import { BaseRequestOptions, Http, HttpModule, RequestMethod, Response, ResponseOptions } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import {} from 'jasmine';
-import 'rxjs/Rx';
+import { TestBed, async, inject } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
+import { MdIconModule, MdIconRegistry } from '@angular2-material/icon';
+import { Observable } from 'rxjs/Observable';
 
-import { SurveyService } from './survey.service';
+import { SurveyComponent } from '../survey.component';
+import { GraphNodeComponent } from './graph-node.component';
+import { SurveyService } from '../../../services/survey';
+import { OrderService } from '../../../services/order';
+import { VariableService } from '../../../services/variable';
 
-const MOCK_SURVEY = 'mock:survey'
-
-describe('SurveyService', () => {
+describe('AppComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         SurveyService,
-
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backend, options) => new Http(backend, options),
-          deps: [MockBackend, BaseRequestOptions]
-        }
+        OrderService,
+        VariableService,
+        MdIconRegistry
+      ],
+      declarations: [
+        SurveyComponent,
+        GraphNodeComponent
       ],
       imports: [
-        HttpModule
+        HttpModule,
+        MdIconModule
       ]
     });
     TestBed.compileComponents();
   });
 
-  it('should construct', async(inject(
-    [SurveyService, MockBackend],
-    (service: SurveyService, mockBackend: MockBackend) => {
-      expect(service).toBeDefined();
-      expect(service.http).toBeDefined();
+  it('should create the survey component', async(() => {
+    let fixture = TestBed.createComponent(GraphNodeComponent);
+    let graphNode = fixture.debugElement.componentInstance;
+    expect(graphNode).toBeTruthy();
+  }));
+
+  it('should properly handle a graph node with a valid name and elements', async(() => {
+    let fixture = TestBed.createComponent(GraphNodeComponent);
+    let graphNode = fixture.debugElement.componentInstance;
+
+    graphNode.node = <OrderGraphNode>{
+      'MOCK_GRAPH_NODE': [
+        <OrderGraphLeaf>'MOCK_LEAF'
+      ]
     }
-  )));
+    graphNode.ngOnInit();
 
-  it('should use an HTTP call to obtain survey variables', async(inject(
-    [SurveyService, MockBackend],
-    (service: SurveyService, backend: MockBackend) => {
-      backend.connections.subscribe((connection: MockConnection) => {
-        expect(connection.request.method).toBe(RequestMethod.Get);
-        expect(connection.request.url).toBe(
-          'http://localhost:4200/assets/variables.json'
-        );
-      });
+    expect(graphNode.nodeName).toContain('MOCK_GRAPH_NODE');
+    expect(graphNode.elems[0]).toContain('MOCK_LEAF');
+  }));
 
-      service.variables(MOCK_SURVEY);
+  it('should properly handle an invalid graph node', async(() => {
+    let fixture = TestBed.createComponent(GraphNodeComponent);
+    let graphNode = fixture.debugElement.componentInstance;
+
+    graphNode.node = <OrderGraphNode>{}
+    graphNode.ngOnInit();
+
+    expect(!!graphNode.nodeName).toBeFalsy();
+    expect(!!graphNode.elems).toBeFalsy()
+
+    graphNode.node = <OrderGraphNode><OrderGraphNode>{
+      'MOCK_GRAPH_NODE': []
     }
-  )));
+    graphNode.ngOnInit();
 
-  it('should parse survey variables response correctly', async(inject(
-    [SurveyService, MockBackend],
-    (service: SurveyService, backend: MockBackend) => {
-      backend.connections.subscribe((connection: MockConnection) => {
+    expect(!!graphNode.nodeName).toBeFalsy();
+    expect(!!graphNode.elems).toBeFalsy()
+  }));
 
-        let mockResponseBody: VariablesElement = {
-          element: 'mock:element',
-          self: 'mock:self',
-          orders: <Order>{
-            hier: 'mock:hier'
-          },
-          description: 'mock:description',
-          index: {
-            'mock:variable': <Variable>{
-              name: "mock:variable:name",
-              type: 'mock:variable:type',
-              description: 'mock:variable:description'
-            }
-          }
-        };
-        let response = new ResponseOptions({body: JSON.stringify(mockResponseBody)});
-        connection.mockRespond(new Response(response));
-      });
+  it('should be colapsed initially and expand when triggered', async(() => {
+    let fixture = TestBed.createComponent(GraphNodeComponent);
+    let graphNode = fixture.debugElement.componentInstance;
 
-      service.variables(MOCK_SURVEY)
-        .subscribe(variables => {
-          expect(variables.element).toEqual('mock:element');
-          expect(variables.index['mock:variable'].name).toEqual('mock:variable:name');
-          // TODO: variable abstraction and more expects
-        });
-    }
-  )));
+    expect(graphNode.expanded).toBeFalsy();
 
-  it('should use an HTTP call to obtain survey order', async(inject(
-    [SurveyService, MockBackend],
-    (service: SurveyService, backend: MockBackend) => {
-      backend.connections.subscribe((connection: MockConnection) => {
-        expect(connection.request.method).toBe(RequestMethod.Get);
-        expect(connection.request.url).toBe(
-          'http://localhost:4200/assets/order.json'
-        );
-      });
+    graphNode.toggleExpanded(<Event>{stopPropagation: () => {}});
+    expect(graphNode.expanded).toBeTruthy();
 
-      service.order(MOCK_SURVEY);
-    }
-  )));
-
-  it('should parse survey order response correctly', async(inject(
-    [SurveyService, MockBackend],
-    (service: SurveyService, backend: MockBackend) => {
-      backend.connections.subscribe((connection: MockConnection) => {
-
-        let mockResponseBody: OrderElement = {
-          element: 'mock:element',
-          self: 'mock:self',
-          graph: [
-            'mock:order:leaf:1',
-            'mock:order:leaf:2',
-            <OrderGraphNode>{
-              'mock:order:node': [
-                'mock:order:leaf:3',
-              ]
-            }
-          ]
-        }
-        let response = new ResponseOptions({body: JSON.stringify(mockResponseBody)});
-        connection.mockRespond(new Response(response));
-      });
-
-      service.order(MOCK_SURVEY)
-        .subscribe(order => {
-          expect(order.element).toEqual('mock:element');
-          expect(order.graph[2]['mock:order:node'][0]).toEqual('mock:order:leaf:3');
-          // TODO: variable abstraction and more expects
-        });
-    }
-  )));
+    graphNode.toggleExpanded(<Event>{stopPropagation: () => {}});
+    expect(graphNode.expanded).toBeFalsy();
+  }));
 
 });
