@@ -105,4 +105,53 @@ describe('VariablePostionService', () => {
     }
   )));
 
+  it('should use the cache to retrieve a valid variable position that was previously retrieved', async(inject(
+    [SurveyService, OrderService],
+    (survey: SurveyService, service: OrderService) => {
+      let result = service.variablePosition('0894c5')
+      let expected = [4];
+      expect(result.length).toEqual(expected.length);
+      expect(result[0]).toEqual(expected[0]);
+
+      let findPositionSpy = spyOn(service, 'findPosition');
+      result = service.variablePosition('0894c5')
+      expect(result.length).toEqual(expected.length);
+      expect(result[0]).toEqual(expected[0]);
+      expect(findPositionSpy.calls.count()).toEqual(0, 'find position not called for cached variable name')
+    }
+  )));
+
+  it('should use the cache to retrieve an undefined variable position that was previously retrieved', async(inject(
+    [SurveyService, OrderService],
+    (survey: SurveyService, service: OrderService) => {
+      let result = service.variablePosition('NOPE_NOT_HAPPENING');
+      expect(result).toEqual(undefined);
+
+      let findPositionSpy = spyOn(service, 'findPosition');
+      result = service.variablePosition('NOPE_NOT_HAPPENING');
+      expect(result).toEqual(undefined);
+      expect(findPositionSpy.calls.count()).toEqual(0, 'find position not called for cached variable name')
+    }
+  )));
+
+  // TODO: Can't simulate order update?
+  // it('should reset the variable position cache upon scope change', async(inject(
+  //   [SurveyService, OrderService],
+  //   (survey: SurveyService, service: OrderService) => {
+  //     let result = service.variablePosition('0894c5')
+  //     let expected = [4];
+  //     expect(result.length).toEqual(expected.length);
+  //     expect(result[0]).toEqual(expected[0]);
+  //
+  //     // simulate scope reset
+  //     survey['updateOrder'](MOCK_ORDER_ELEMENT);
+  //
+  //     let findPositionSpy = spyOn(service, 'findPosition');
+  //     result = service.variablePosition('0894c5')
+  //     expect(result.length).toEqual(expected.length);
+  //     expect(result[0]).toEqual(expected[0]);
+  //     expect(findPositionSpy.calls.count()).toEqual(1, 'find position called for variable name after scope reset')
+  //   }
+  // )));
+
 });

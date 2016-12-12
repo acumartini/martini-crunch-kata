@@ -92,7 +92,9 @@ export class SurveyService {
     variablesSubject: Subject<VariablesElement> = undefined
   ) {
     this._currentVariables.next(data);
-    if (variablesSubject) variablesSubject.next(data)
+    if (variablesSubject) {
+      variablesSubject.next(data);
+    }
   }
 
   /**
@@ -104,7 +106,9 @@ export class SurveyService {
     orderSubject: Subject<OrderElement> = undefined
   ) {
     this._currentOrder.next(data);
-    if (orderSubject) orderSubject.next(data)
+    if (orderSubject) {
+      orderSubject.next(data);
+    }
   }
 
 }

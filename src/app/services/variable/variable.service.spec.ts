@@ -130,6 +130,27 @@ describe('VariablePostionService', () => {
     }
   )));
 
-  // TODO: test variable name
+  it('should return a variable for a valid variable name', async(inject(
+    [SurveyService, VariableService],
+    (survey: SurveyService, service: VariableService) => {
+      let result = service.variableForName('0894c5');
+      let expected = <Variable>{
+        "name": "mock:variable:name1",
+        "type": "mock:variable:type1",
+        "description": "mock:variable:description1"
+      };
+      expect(result.name).toEqual(expected.name);
+      expect(result.type).toEqual(expected.type);
+      expect(result.description).toEqual(expected.description);
+    }
+  )));
+
+  it('should return undefined for an invalid variable name', async(inject(
+    [SurveyService, VariableService],
+    (survey: SurveyService, service: VariableService) => {
+      let result = service.variableForName('NOPE_NOT_HAPPENING');
+      expect(result).toEqual(undefined);      
+    }
+  )));
 
 });

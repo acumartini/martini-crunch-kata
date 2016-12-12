@@ -12,7 +12,7 @@ import { SurveyService } from '../survey';
 export class OrderService {
 
   private order: OrderElement;
-  private variableNameCache = new Map<string, VariablePosition>();
+  private variableNameToPosition = new Map<string, VariablePosition>();
 
   constructor(
     surveyService: SurveyService
@@ -20,7 +20,7 @@ export class OrderService {
     // keep the scope of this service up to date with the most recently queried OrderElement
     surveyService.currentOrder().subscribe(order => {
       this.order = order;
-      this.variableNameCache.clear();
+      this.variableNameToPosition.clear();
     });
   }
 
@@ -28,7 +28,18 @@ export class OrderService {
    * @return VariablePosition if the variable name is found in the order, else undefined
    */
   variablePosition(variableName: string): VariablePosition {
-    return this.findPosition(variableName, undefined, this.order.graph);
+    let position: VariablePosition;
+
+    if (this.variableNameToPosition.has(variableName)) {
+      // return the result of a previous search
+      position = this.variableNameToPosition.get(variableName);
+    } else {
+      // attempt to the the postion for a variable name that is not cached
+      position = this.findPosition(variableName, undefined, this.order.graph);
+      this.variableNameToPosition.set(variableName, position);
+    }
+
+    return position;
   }
 
   /**
