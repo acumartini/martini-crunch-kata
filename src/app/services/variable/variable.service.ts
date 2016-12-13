@@ -97,7 +97,7 @@ export class VariableService {
       if (index === 0) {
         key += elem;
       } else {
-        key += ':' + elem
+        key += ':' + elem;
       }
     });
 

@@ -6,7 +6,7 @@ import 'rxjs/Rx';
 
 import { SurveyService } from './survey.service';
 
-const MOCK_SURVEY = 'mock:survey'
+const MOCK_SURVEY = 'mock:survey';
 
 describe('SurveyService', () => {
   beforeEach(() => {
@@ -115,7 +115,7 @@ describe('SurveyService', () => {
               ]
             }
           ]
-        }
+        };
         let response = new ResponseOptions({body: JSON.stringify(mockResponseBody)});
         connection.mockRespond(new Response(response));
       });

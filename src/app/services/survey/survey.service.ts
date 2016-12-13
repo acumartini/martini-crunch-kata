@@ -37,7 +37,7 @@ export class SurveyService {
    * @returns VariablesElement observable that will be notified upon successful data retrieval
    */
   variables(survey: string): Observable<VariablesElement> {
-    var variablesSubject = this.variablesElementsMap.get(survey) // TODO: is this thread safe?
+    let variablesSubject = this.variablesElementsMap.get(survey);
     if (!variablesSubject) {
       variablesSubject = new Subject<VariablesElement>();
       this.variablesElementsMap.set(survey, variablesSubject);
@@ -60,7 +60,7 @@ export class SurveyService {
    * @returns OrderElement observable that will be notified upon successful data retrieval
    */
   order(survey: string): Observable<OrderElement> {
-    var orderSubject = this.orderElementsMap.get(survey) // TODO: is this thread safe?
+    let orderSubject = this.orderElementsMap.get(survey);
     if (!orderSubject) {
       orderSubject = new Subject<OrderElement>();
       this.orderElementsMap.set(survey, orderSubject);

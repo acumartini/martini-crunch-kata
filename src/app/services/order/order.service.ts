@@ -68,7 +68,7 @@ export class OrderService {
             }
           }
         } else {
-          let childPosition = this.findPositionRec(variableName, <OrderGraphNode>elem)
+          let childPosition = this.findPositionRec(variableName, <OrderGraphNode>elem);
           if (childPosition) {
             if (nodeName) {
               position = [nodeName, index].concat(childPosition);
@@ -77,7 +77,7 @@ export class OrderService {
             }
           }
         }
-        return !!position
+        return !!position;
       });
     }
 
@@ -93,7 +93,7 @@ export class OrderService {
 
     // search each order node *until* the position is determined
     Object.keys(node).find((nodeName: string) => {
-      var elems = node[nodeName];
+      let elems = node[nodeName];
       position = this.findPosition(variableName, nodeName, elems);
       return !!position;
     });

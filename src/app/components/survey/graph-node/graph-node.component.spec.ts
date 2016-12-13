@@ -44,7 +44,7 @@ describe('AppComponent', () => {
       'MOCK_GRAPH_NODE': [
         <OrderGraphLeaf>'MOCK_LEAF'
       ]
-    }
+    };
     graphNode.ngOnInit();
 
     expect(graphNode.nodeName).toContain('MOCK_GRAPH_NODE');
@@ -55,19 +55,19 @@ describe('AppComponent', () => {
     let fixture = TestBed.createComponent(GraphNodeComponent);
     let graphNode = fixture.debugElement.componentInstance;
 
-    graphNode.node = <OrderGraphNode>{}
+    graphNode.node = <OrderGraphNode>{};
     graphNode.ngOnInit();
 
     expect(!!graphNode.nodeName).toBeFalsy();
-    expect(!!graphNode.elems).toBeFalsy()
+    expect(!!graphNode.elems).toBeFalsy();
 
     graphNode.node = <OrderGraphNode><OrderGraphNode>{
       'MOCK_GRAPH_NODE': []
-    }
+    };
     graphNode.ngOnInit();
 
     expect(!!graphNode.nodeName).toBeFalsy();
-    expect(!!graphNode.elems).toBeFalsy()
+    expect(!!graphNode.elems).toBeFalsy();
   }));
 
   it('should be colapsed initially and expand when triggered', async(() => {
