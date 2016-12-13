@@ -1,8 +1,8 @@
 <div
   *ngIf="nodeName && elems"
   class="graph-node-content"
-  [ngStyle]="{
-    'padding-left': root ? 0 : '14px'
+  [ngClass]="{
+    'root-element': root
   }">
   <div class="graph-node-name-wrapper">
     <md-icon
@@ -18,7 +18,7 @@
       svgSrc="../../../assets/icons/chevron_right.svg">
     </md-icon>
     <span
-      class="graph-node-name"
+      class="graph-node-name crunch-text"
       (click)="toggleExpanded($event)">
       {{ nodeName }}
     </span>

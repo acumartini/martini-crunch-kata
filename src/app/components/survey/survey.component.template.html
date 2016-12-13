@@ -1,11 +1,11 @@
 <div
   class="survey-content"
-  [ngStyle]="{
-    'padding-left': root ? 0 : '14px'
+  [ngClass]="{
+    'root-element': root
   }">
   <div
     *ngFor="let elem of graph"
-    class="order-graph-element">
+    class="crunch-text">
     <div
       *ngIf="isValidLeaf(elem)"
       class="order-graph-leaf">
