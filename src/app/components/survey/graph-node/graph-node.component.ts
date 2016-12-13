@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 
 @Component({
@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./graph-node.component.style.less'],
   templateUrl: './graph-node.component.template.html'
 })
-export class GraphNodeComponent {
+export class GraphNodeComponent implements OnInit {
 
   @Input() node: OrderGraphNode;
   @Input() root: boolean;

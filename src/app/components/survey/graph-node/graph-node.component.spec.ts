@@ -9,7 +9,7 @@ import { SurveyService } from '../../../services/survey';
 import { OrderService } from '../../../services/order';
 import { VariableService } from '../../../services/variable';
 
-describe('AppComponent', () => {
+describe('GraphNodeComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
