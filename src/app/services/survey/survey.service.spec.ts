@@ -65,7 +65,7 @@ describe('SurveyService', () => {
           description: 'mock:description',
           index: {
             'mock:variable': <Variable>{
-              name: "mock:variable:name",
+              name: 'mock:variable:name',
               type: 'mock:variable:type',
               description: 'mock:variable:description'
             }

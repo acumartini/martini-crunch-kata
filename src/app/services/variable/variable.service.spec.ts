@@ -8,43 +8,44 @@ import { SurveyService } from '../survey';
 import { VariableService } from './variable.service';
 
 const MOCK_ORDER_ELEMENT = <OrderElement>{
-  "element": "mock:order",
-  "self": "mock:self",
-  "graph": [
-    "LOOP_BREAKER", {
-    "MOCK_NODE_1": [{
-      "MOCK_NODE_2": ["11b0b9", "7a89e0"]
+  'element': 'mock:order',
+  'self': 'mock:self',
+  'graph': [
+    'LOOP_BREAKER', {
+      'MOCK_NODE_1': [{
+        'MOCK_NODE_2': ['11b0b9', '7a89e0']
+      }, {
+          'MOCK_NODE_3': ['786c0f', '2d27ab']
+        }]
     }, {
-      "MOCK_NODE_3": ["786c0f", "2d27ab"]
-    }]}, {
-    "MOCK_NODE_4": [{
-      "MOCK_NODE_5": ["ede6a8", "62c00f", "0f6ce0", "f2a681"]
-    }, {
-      "MOCK_NODE_6": ["8d7127", "ee3e40", "8f7db6", "3a5f89"]
-    }]
+      'MOCK_NODE_4': [{
+        'MOCK_NODE_5': ['ede6a8', '62c00f', '0f6ce0', 'f2a681']
+      }, {
+          'MOCK_NODE_6': ['8d7127', 'ee3e40', '8f7db6', '3a5f89']
+        }]
     },
-    "d0fe8b",
-    "0894c5",
-    "NOPE_NOT_HAPPENING"
+    'd0fe8b',
+    '0894c5',
+    'NOPE_NOT_HAPPENING'
   ]
 };
 const MOCK_VARIABLES_ELEMENT = <VariablesElement>{
-  "element": "mock:variables",
-  "self": "mock:self",
-  "orders": {
-    "hier": "mock:order:hier"
+  'element': 'mock:variables',
+  'self': 'mock:self',
+  'orders': {
+    'hier': 'mock:order:hier'
   },
-  "description": "mock:variables:description",
-  "index": {
-    "0894c5": {
-      "name": "mock:variable:name1",
-      "type": "mock:variable:type1",
-      "description": "mock:variable:description1"
+  'description': 'mock:variables:description',
+  'index': {
+    '0894c5': {
+      'name': 'mock:variable:name1',
+      'type': 'mock:variable:type1',
+      'description': 'mock:variable:description1'
     },
-    "786c0f": {
-      "name": "mock:variable:name2",
-      "type": "mock:variable:type2",
-      "description": "mock:variable:description2"
+    '786c0f': {
+      'name': 'mock:variable:name2',
+      'type': 'mock:variable:type2',
+      'description': 'mock:variable:description2'
     }
   }
 };
@@ -63,7 +64,7 @@ describe('VariablePostionService', () => {
         {
           provide: SurveyService,
           useFactory: (http) => {
-            var service = new SurveyService(http);
+            let service = new SurveyService(http);
             spyOn(service, 'currentOrder').and.returnValue(Observable.of(MOCK_ORDER_ELEMENT));
             spyOn(service, 'currentVariables').and.returnValue(Observable.of(MOCK_VARIABLES_ELEMENT));
             return service;
@@ -83,9 +84,9 @@ describe('VariablePostionService', () => {
     (survey: SurveyService, service: VariableService) => {
       let result = service.variableForPosition([4]);
       let expected = <Variable>{
-        "name": "mock:variable:name1",
-        "type": "mock:variable:type1",
-        "description": "mock:variable:description1"
+        'name': 'mock:variable:name1',
+        'type': 'mock:variable:type1',
+        'description': 'mock:variable:description1'
       };
       expect(result.name).toEqual(expected.name);
       expect(result.type).toEqual(expected.type);
@@ -98,9 +99,9 @@ describe('VariablePostionService', () => {
     (survey: SurveyService, service: VariableService) => {
       let result = service.variableForPosition([1, 'MOCK_NODE_1', 1, 'MOCK_NODE_3', 0]);
       let expected = <Variable>{
-        "name": "mock:variable:name2",
-        "type": "mock:variable:type2",
-        "description": "mock:variable:description2"
+        'name': 'mock:variable:name2',
+        'type': 'mock:variable:type2',
+        'description': 'mock:variable:description2'
       };
       expect(result.name).toEqual(expected.name);
       expect(result.type).toEqual(expected.type);
@@ -135,9 +136,9 @@ describe('VariablePostionService', () => {
     (survey: SurveyService, service: VariableService) => {
       let result = service.variableForName('0894c5');
       let expected = <Variable>{
-        "name": "mock:variable:name1",
-        "type": "mock:variable:type1",
-        "description": "mock:variable:description1"
+        'name': 'mock:variable:name1',
+        'type': 'mock:variable:type1',
+        'description': 'mock:variable:description1'
       };
       expect(result.name).toEqual(expected.name);
       expect(result.type).toEqual(expected.type);
@@ -158,9 +159,9 @@ describe('VariablePostionService', () => {
     (survey: SurveyService, service: VariableService) => {
       let result = service.variableForPosition([4]);
       let expected = <Variable>{
-        "name": "mock:variable:name1",
-        "type": "mock:variable:type1",
-        "description": "mock:variable:description1"
+        'name': 'mock:variable:name1',
+        'type': 'mock:variable:type1',
+        'description': 'mock:variable:description1'
       };
       expect(result.name).toEqual(expected.name);
       expect(result.type).toEqual(expected.type);

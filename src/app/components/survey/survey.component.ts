@@ -7,7 +7,7 @@ import { OrderService } from '../../services/order';
 
 @Component({
   selector: 'survey',
-  styleUrls: [ './survey.component.style.less' ],
+  styleUrls: ['./survey.component.style.less'],
   templateUrl: './survey.component.template.html'
 })
 export class SurveyComponent {
@@ -21,7 +21,7 @@ export class SurveyComponent {
   constructor(
     public variableService: VariableService,
     public orderService: OrderService
-  ) {}
+  ) { }
 
   isValidLeaf(elem: OrderGraphElement): boolean {
     if (OrderGraphUtils.isLeaf(elem)) {

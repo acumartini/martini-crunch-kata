@@ -9,23 +9,24 @@ import { SurveyService } from '../survey';
 import { OrderService } from './order.service';
 
 const MOCK_ORDER_ELEMENT = <OrderElement>{
-  "element": "mock:order",
-  "self": "mock:self",
-  "graph": [
-    "LOOP_BREAKER", {
-    "MOCK_NODE_1": [{
-      "MOCK_NODE_2": ["11b0b9", "7a89e0"]
+  'element': 'mock:order',
+  'self': 'mock:self',
+  'graph': [
+    'LOOP_BREAKER', {
+      'MOCK_NODE_1': [{
+        'MOCK_NODE_2': ['11b0b9', '7a89e0']
+      }, {
+          'MOCK_NODE_3': ['786c0f', '2d27ab']
+        }]
     }, {
-      "MOCK_NODE_3": ["786c0f", "2d27ab"]
-    }]}, {
-    "MOCK_NODE_4": [{
-      "MOCK_NODE_5": ["ede6a8", "62c00f", "0f6ce0", "f2a681"]
-    }, {
-      "MOCK_NODE_6": ["8d7127", "ee3e40", "8f7db6", "3a5f89"]
-    }]
+      'MOCK_NODE_4': [{
+        'MOCK_NODE_5': ['ede6a8', '62c00f', '0f6ce0', 'f2a681']
+      }, {
+          'MOCK_NODE_6': ['8d7127', 'ee3e40', '8f7db6', '3a5f89']
+        }]
     },
-    "d0fe8b",
-    "0894c5"
+    'd0fe8b',
+    '0894c5'
   ]
 };
 
@@ -43,7 +44,7 @@ describe('VariablePostionService', () => {
         {
           provide: SurveyService,
           useFactory: (http) => {
-            var service = new SurveyService(http);
+            let service = new SurveyService(http);
             spyOn(service, 'currentOrder').and.returnValue(Observable.of(MOCK_ORDER_ELEMENT));
             return service;
           },
@@ -61,7 +62,7 @@ describe('VariablePostionService', () => {
   it('should return the position of a variable name at the root level', async(inject(
     [SurveyService, OrderService],
     (survey: SurveyService, service: OrderService) => {
-      let result = service.variablePosition('0894c5')
+      let result = service.variablePosition('0894c5');
       let expected = [4];
       expect(result.length).toEqual(expected.length);
       expect(result[0]).toEqual(expected[0]);
@@ -71,7 +72,7 @@ describe('VariablePostionService', () => {
   it('should return the position of a deeply nested variable name', async(inject(
     [SurveyService, OrderService],
     (survey: SurveyService, service: OrderService) => {
-      let result = service.variablePosition('3a5f89')
+      let result = service.variablePosition('3a5f89');
       let expected = [2, 'MOCK_NODE_4', 1, 'MOCK_NODE_6', 3];
       expect(result.length).toEqual(expected.length);
       for (let i = 0; i < result.length; i++) {
@@ -108,16 +109,16 @@ describe('VariablePostionService', () => {
   it('should use the cache to retrieve a valid variable position that was previously retrieved', async(inject(
     [SurveyService, OrderService],
     (survey: SurveyService, service: OrderService) => {
-      let result = service.variablePosition('0894c5')
+      let result = service.variablePosition('0894c5');
       let expected = [4];
       expect(result.length).toEqual(expected.length);
       expect(result[0]).toEqual(expected[0]);
 
       let findPositionSpy = spyOn(service, 'findPosition');
-      result = service.variablePosition('0894c5')
+      result = service.variablePosition('0894c5');
       expect(result.length).toEqual(expected.length);
       expect(result[0]).toEqual(expected[0]);
-      expect(findPositionSpy.calls.count()).toEqual(0, 'find position not called for cached variable name')
+      expect(findPositionSpy.calls.count()).toEqual(0, 'find position not called for cached variable name');
     }
   )));
 
@@ -130,14 +131,14 @@ describe('VariablePostionService', () => {
       let findPositionSpy = spyOn(service, 'findPosition');
       result = service.variablePosition('NOPE_NOT_HAPPENING');
       expect(result).toEqual(undefined);
-      expect(findPositionSpy.calls.count()).toEqual(0, 'find position not called for cached variable name')
+      expect(findPositionSpy.calls.count()).toEqual(0, 'find position not called for cached variable name');
     }
   )));
 
   it('should reset the variable position cache upon scope change', async(inject(
     [SurveyService, OrderService],
     (survey: SurveyService, service: OrderService) => {
-      let result = service.variablePosition('0894c5')
+      let result = service.variablePosition('0894c5');
       let expected = [4];
       expect(result.length).toEqual(expected.length);
       expect(result[0]).toEqual(expected[0]);
@@ -147,10 +148,10 @@ describe('VariablePostionService', () => {
       service['variableNameToPosition'].clear();
 
       let findPositionSpy = spyOn(service, 'findPosition').and.returnValue(expected);
-      result = service.variablePosition('0894c5')
+      result = service.variablePosition('0894c5');
       expect(result.length).toEqual(expected.length);
       expect(result[0]).toEqual(expected[0]);
-      expect(findPositionSpy.calls.count()).toEqual(1, 'find position called for variable name after scope reset')
+      expect(findPositionSpy.calls.count()).toEqual(1, 'find position called for variable name after scope reset');
     }
   )));
 

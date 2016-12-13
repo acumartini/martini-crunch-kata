@@ -10,22 +10,22 @@ import { OrderService } from '../../services/order';
 import { VariableService } from '../../services/variable';
 
 const MOCK_VARIABLES_ELEMENT = <VariablesElement>{
-  "element": "mock:variables",
-  "self": "mock:self",
-  "orders": {
-    "hier": "mock:order:hier"
+  'element': 'mock:variables',
+  'self': 'mock:self',
+  'orders': {
+    'hier': 'mock:order:hier'
   },
-  "description": "mock:variables:description",
-  "index": {
-    "VALID_LEAF": {
-      "name": "mock:variable:name1",
-      "type": "mock:variable:type1",
-      "description": "mock:variable:description1"
+  'description': 'mock:variables:description',
+  'index': {
+    'VALID_LEAF': {
+      'name': 'mock:variable:name1',
+      'type': 'mock:variable:type1',
+      'description': 'mock:variable:description1'
     },
-    "INVALID_LEAF": {
-      "name": "",
-      "type": "mock:variable:type1",
-      "description": "mock:variable:description1"
+    'INVALID_LEAF': {
+      'name': '',
+      'type': 'mock:variable:type1',
+      'description': 'mock:variable:description1'
     },
   }
 };
@@ -37,7 +37,7 @@ describe('AppComponent', () => {
         {
           provide: SurveyService,
           useFactory: (http) => {
-            var service = new SurveyService(http);
+            let service = new SurveyService(http);
             spyOn(service, 'currentVariables').and.returnValue(Observable.of(MOCK_VARIABLES_ELEMENT));
             return service;
           },
@@ -68,7 +68,7 @@ describe('AppComponent', () => {
   it('should properly test a valid leaf', async(() => {
     let fixture = TestBed.createComponent(SurveyComponent);
     let survey = fixture.debugElement.componentInstance;
-    let leaf = <OrderGraphLeaf>"VALID_LEAF";
+    let leaf = <OrderGraphLeaf>'VALID_LEAF';
 
     expect(survey.isValidLeaf(leaf)).toBeTruthy();
   }));
@@ -76,7 +76,7 @@ describe('AppComponent', () => {
   it('should properly test an invalid leaf', async(() => {
     let fixture = TestBed.createComponent(SurveyComponent);
     let survey = fixture.debugElement.componentInstance;
-    let leaf = <OrderGraphLeaf>"INVALID_LEAF";
+    let leaf = <OrderGraphLeaf>'INVALID_LEAF';
 
     expect(survey.isValidLeaf(leaf)).toBeFalsy();
   }));
@@ -84,7 +84,7 @@ describe('AppComponent', () => {
   it('should properly test a missing leaf', async(() => {
     let fixture = TestBed.createComponent(SurveyComponent);
     let survey = fixture.debugElement.componentInstance;
-    let leaf = <OrderGraphLeaf>"NOPE_NOT_HAPPENING";
+    let leaf = <OrderGraphLeaf>'NOPE_NOT_HAPPENING';
 
     expect(survey.isValidLeaf(leaf)).toBeFalsy();
   }));
