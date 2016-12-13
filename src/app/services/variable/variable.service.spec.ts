@@ -149,7 +149,44 @@ describe('VariablePostionService', () => {
     [SurveyService, VariableService],
     (survey: SurveyService, service: VariableService) => {
       let result = service.variableForName('NOPE_NOT_HAPPENING');
-      expect(result).toEqual(undefined);      
+      expect(result).toEqual(undefined);
+    }
+  )));
+
+  it('should use the cache to retrieve a variable that was previously retrieved', async(inject(
+    [SurveyService, VariableService],
+    (survey: SurveyService, service: VariableService) => {
+      let result = service.variableForPosition([4]);
+      let expected = <Variable>{
+        "name": "mock:variable:name1",
+        "type": "mock:variable:type1",
+        "description": "mock:variable:description1"
+      };
+      expect(result.name).toEqual(expected.name);
+      expect(result.type).toEqual(expected.type);
+      expect(result.description).toEqual(expected.description);
+
+      let cacheGetSpy = spyOn(service['variablePositonToVariable'], 'get').and.returnValue(expected);
+
+      result = service.variableForPosition([4]);
+      expect(result.name).toEqual(expected.name);
+      expect(result.type).toEqual(expected.type);
+      expect(result.description).toEqual(expected.description);
+      expect(cacheGetSpy.calls.count()).toEqual(1, 'get from cache called once');
+    }
+  )));
+
+  it('should use the cache to retrieve undefined for an invalid position that was previously attempted', async(inject(
+    [SurveyService, VariableService],
+    (survey: SurveyService, service: VariableService) => {
+      let result = service.variableForPosition([10]);
+      expect(result).toEqual(undefined);
+
+      let cacheGetSpy = spyOn(service['variablePositonToVariable'], 'get').and.returnValue(undefined);
+
+      result = service.variableForPosition([10]);
+      expect(result).toEqual(undefined);
+      expect(cacheGetSpy.calls.count()).toEqual(1, 'get from cache called once');
     }
   )));
 

@@ -12,7 +12,9 @@ export class VariableService {
 
   private variables: VariablesElement;
   private order: OrderElement;
-  private variablePositonToVariable = new Map<VariablePosition, Variable>();
+
+  // Note: the key for this cache is created from a VariablePosition via positionToKey below
+  private variablePositonToVariable = new Map<string, Variable>();
 
   constructor(
     surveyService: SurveyService
@@ -36,10 +38,11 @@ export class VariableService {
    */
   variableForPosition(position: VariablePosition): Variable {
     let variable: Variable;
+    let positionKey = this.positionToKey(position);
 
-    if (this.variablePositonToVariable.has(position)) {
+    if (this.variablePositonToVariable.has(positionKey)) {
       // return the result of a previous search
-      variable = this.variablePositonToVariable.get(position);
+      variable = this.variablePositonToVariable.get(positionKey);
     } else {
       // attempt to find the variable for a position that is not cached
       if (this.variables && this.order) {
@@ -54,9 +57,11 @@ export class VariableService {
             }
           });
           variable = this.variables.index[<OrderGraphLeaf>currentElem];
-          this.variablePositonToVariable.set(position, variable);
+          this.variablePositonToVariable.set(positionKey, variable);
         } catch (e) {
           console.log(`Failed to find variable for position [${position}]`);
+          // record the failed attempt in the cache it may have been missed above
+          this.variablePositonToVariable.set(positionKey, undefined);
         }
       }
     }
@@ -80,6 +85,23 @@ export class VariableService {
     }
 
     return variable;
+  }
+
+  /**
+   * @return A string representation of a VariablePosition such that each element
+   *         is separated by a ':', i.e. <VariablePosition>[1, "TWO", 3] => '1:TWO:3'
+   */
+  private positionToKey(position: VariablePosition): string {
+    let key = '';
+    position.forEach((elem: (string | number), index: number) => {
+      if (index === 0) {
+        key += elem;
+      } else {
+        key += ':' + elem
+      }
+    });
+
+    return key;
   }
 
 }
